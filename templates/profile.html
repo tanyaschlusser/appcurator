@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{%block title %}{{ nickname }}'s page{% endblock %}
+{% block content %}
+{# Option to edit user details #}
+<section>
+<form name="input_form" id="input_form" method="POST">
+  <div id="image_drop_zone"> 
+    <img id="avatar" src="{{ avatar_location }}" class="avatar">
+    <label>To change your avatar, drag and drop an image here.</label>
+  </div>
+
+  <label>Name</label><input type="text" name="name" value="{% if %} {% %} {% %}"></input>
+  <label>username</label><input type="text" name="nickname" value="{{ nickname }}"></input>
+  <button type="submit" id="update_profile" value="submit">Update profile</button>
+
+<label name="start_date">Member since {{ start_date }} </label>
+</form>
+</section>
+{# Add an option to identify doctors #}
+<h2>My health providers</h2>
+<section>
+</section>
+{# Loop over the recommended (by) apps, by reverse date #}
+<section>
+<h2>Recommended apps</h2>
+<ul>
+{% for rec in recommended_by_list %}
+  <li> {{ rec.name }}: {{ rec.app }}
+{% endfor %}
+</ul>
+</section>
+{# Loop over the recommended (to) apps, by reverse date #}
+<section>
+<h2>My recommendations</h2>
+<ul>
+{% for rec in recommended_to_list %}
+  <li> {{ rec.name }}: {{ rec.app }}
+{% endfor %}
+</ul>
+</section>
+{# Loop over the reviewed apps, by reverse date #}
+<section>
+<h2>My reviews</h2>
+<ul>
+{% for review in review_list %}
+  <li> {{ review.app }} ({{ review.review_date }})
+{% endfor %}
+</ul>
+</section>
+{# ---------------------- javascript ---------------------------- #}
+<script type="text/javascript" src={% static 'dropzone.js' %}></script>
+{% endblock %}

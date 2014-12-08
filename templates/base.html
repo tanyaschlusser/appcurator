@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="{{ url_for('index') }}">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+  {% block head %}
+  <title>{%block title %}{% endblock %} - App Curator</title>
+  {% endblock %}
+</head>
+<body>
+<!-- navigation : reviews profile health_providers about -->
+<header>
+  <svg preserveAspectRatio="xMinYMid meet" viewBox="0 -42 200 55" >
+    <g style="font-size: 24pt" transform="scale(1,1.2)">
+    <text x="0" y="0"
+      style="fill:white; stroke:#620381; stroke-width:0.6; font-family:serif; font-style:italic; letter-spacing:-0.3pt">App curation</text>
+      <!--style="fill:white; stroke:#D507F2; stroke-width:0.7; font-family:serif; font-style:italic; letter-spacing:-0.3pt">Banner</text> -->
+    </g>
+  </svg>
+  <nav>
+    <ul>
+      <li {% if request.path == "/profile" %}class="active"{% endif %}>
+        <a href="{{ url_for('profile') }}">Profile</a>
+      <li {% if request.path == "/write" %}class="active"{% endif %}>
+        <a href="{{ url_for('write') }}">Write a review</a>
+      <li {% if request.path == "/apps" %}class="active"{% endif %}>
+        <a href="{{ url_for('apps') }}">Find apps</a>
+      <li {% if request.path == "/providers" %}class="active"{% endif %}>
+        <a href="{{ url_for('providers') }}">Find providers</a>
+    </ul>
+  </nav>
+</header>
+<!-- main -->
+<main>
+  <section id="content">
+    {% block content %}{% endblock %}
+  </section>
+</main>
+<!-- footer -->
+<footer>
+  <nav>
+    <ul>
+      <li {% if request.path == "/providers" %}class="active"{% endif %}>
+        <a href="{{ url_for('providers') }}">Providers</a>
+      <li {% if request.path == "/about" %}class="active"{% endif %}>
+        <a href="{{ url_for('about') }}">About us</a>
+    </ul>
+  </nav>
+  &copy; Copyright 2014, Tanya and Valentina
+</footer>
+<!-- footer -->
+</body>

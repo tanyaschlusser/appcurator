@@ -17,6 +17,24 @@ Goals
      for health-related apps
 
 
+Getting started
+===============
+
+You need to install Flask, pg8000, and other libraries
+in the 'requirements.txt' file:
+
+    pip install -r requirements.txt
+
+
+If you don't want to do this in your own environment,
+you can do it in a virtual environment:
+
+    virtualenv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ## to deactivate the virtual environment,
+    ## just type 'deactivate' (without quotes)
+
 
 Schedule
 ========

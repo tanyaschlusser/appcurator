@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# configuration.py
+"""
+Define the location and login information for the database.
+
+Pass the CONNECTION_DETAILS dictionary as keyword arguments
+to the 'pg8000.connect' function like:
+
+    pg8000.connect(**conf.CONNECTION_DETAILS)
+
+The remaning two values are just kept for now in case they are
+useful; they are leftover outputs from the heroku commands:
+
+    heroku pg:credentials DATABASE
+    heroku config | grep HEROKU_POSTGRESQL  # gives you the URL
+"""
+import pg8000
+
+
+from contextlib import closing
+
+CONNECTION_DETAILS = dict(
+        database="the_database",
+        host="ec2-etcetera.amazonaws.com",
+        port=5432,
+        user="username",
+        password="password",
+        ssl=True)
+
+#DEBUG = True
+
+
+def connect_db():
+    return pg8000.connect(**CONNECTION_DETAILS)
+
+def reset_db():
+    with closing(connect_db()) as db:
+        with open('drop_tables.sql', 'r') as f:
+            db.cursor().execute(f.read())
+        with open('create_tables.sql', 'r') as f:
+            db.cursor().execute(f.read())
+        db.commit()
+
+
+
+FB_ID = "FACEBOOK_ID"
+FB_SECRET = "FACEBOOK_SECRET"
+

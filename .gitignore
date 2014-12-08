@@ -38,4 +38,7 @@ Thumbs.db
 
 # TANYA #
 #########
+configuration.py
 notes.to.self
+*.pyc
+venv/

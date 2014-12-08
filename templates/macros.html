@@ -1,0 +1,41 @@
+{% macro app_snapshot() -%}
+ {# icon #}
+ {# device(s) #}
+ {# platform(s) #}
+ {# average of reviews (usability, effectiveness) (and number of reviewers by doctor | patient ) #}
+{%- endmacro %}
+
+{% macro app_score_icon(score) -%}
+  <span class="score">
+  {% if score <= 1 %}
+    <img src=url_for('static', filename = 'images/icons/thumbs_down.png')
+         alt="Thumbs Down">
+  {% elif score <= 2 %}
+    <img src=url_for('static', filename = 'images/icons/meh.png')
+         alt="Meh">
+  {% else %}
+    <img src=url_for('static', filename = 'images/icons/thumbs_up.png')
+         alt="Thumbs Up">
+  {% endif %}
+  {{ score }}
+  </span>
+{%- endmacro %}
+
+{% macro category_summary() -%}
+ {# number of reviews #}
+ {# top reviewed app(s) -- show snapshots #}
+{%- endmacro %}
+
+{% macro provider_summary() -%}
+<img src="{{ provider_avatar }}" class="avatar"></img>
+
+{# provider name #}
+{# provider avatar #}
+{# provider organization #}
+{%- endmacro %}
+
+{% macro patient_summary() -%}
+{# patient name #}
+{# patient avatar #}
+{# current_feeling #}
+{%- endmacro %}
