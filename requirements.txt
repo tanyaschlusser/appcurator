@@ -6,9 +6,12 @@ MarkupSafe==0.23
 Werkzeug==0.9.6
 aniso8601==0.85
 cocos2d==0.5.5
+gnureadline==6.3.3
 gunicorn==19.1.1
+ipython==2.3.1
 itsdangerous==0.24
 pg8000==1.10.1
+pyglet==1.1.4
 pytz==2014.9
 six==1.8.0
 wsgiref==0.1.2
