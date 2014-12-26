@@ -1,54 +1,30 @@
 {% extends "base.html" %}  
 {% import "macros.html" as macros %}
 {%block title %}Apps{% endblock %}
-{% block content %}
+{% block content -%}
 {# Loop over the given apps
     - if tags or devices are chosen show individual apps for these
     - otherwise group by tags
  #}
-{% if app_summaries is defined %}
+{% if app_summaries is defined  %}
   {% for app in app_summaries %}
-    <div class="app_summary">
-      <h2>{{ app.name }}</h2>
-      <img src="{{ app.icon }}" class="icon" >
-      <b>by {{ app.organization }}</b>
-      <p>{{ app.objective }}</p>
-      
-      {% for category in app.categories %}
-        {{ category }}
-      {% endfor %}
-      {% for device in app.devices %}
-        {{ device }}
-      {% endfor %}
-      {% for platform in app.platforms %}
-        {{ platform }}
-      {% endfor %}
-      {% for link_entry in app.link_entries %}
-        {{ link_entry }}
-        {# <a href="{{ link }}">link_code</a> #}
-      {% endfor %}
-      <ul>
-        <li> {{ app.n_recc }} total recommendations by {{ app.n_recc }} members
-        <li> Usability
-          <ul>
-            <li> {{ macros.app_score_icon(app.usability.providers) }} (Health providers)
-            <li> {{ macros.app_score_icon(app.usability.users) }} (Users)
-          </ul>
-        <li> Effectiveness
-          <ul>
-            <li> {{ macros.app_score_icon(app.effectiveness.providers) }} (Health providers)
-            <li> {{ macros.app_score_icon(app.effectiveness.users) }} (Users)
-          </ul>
-      </ul>
-      Most recent review: {{ app.last_review_date }}
-    </div>
+    {{ macros.app_summary(app) }}
   {% endfor %}
-{% else %}
+  {%  if app_summaries|length == 1 %}
+    {% for review in reviews %}
+      {{ macros.app_review(review) }}
+    {% endfor %}
+  {% endif %}
+
+
+{% elif tag_summaries is defined %}
   {% for tag in tag_summaries %}
-    <div class="tag_summary" >
-    <h2>{{ tag['name'] }}</h2>
-    flash through top 3 apps (later)
-    </div>
+    <section class="tag_summary" >
+    <h2>{{ tag.name }} ({{ tag.n_apps }} apps{% if tag.n_apps > 3 %} &ndash; showing Top 3 {% endif %})</h2>
+      {% for app in tag.top_apps %}
+        {{ macros.app_summary(app) }}
+      {% endfor %}
+    </section>
   {% endfor %}
 {% endif %}
-{% endblock %}
+{%- endblock %}

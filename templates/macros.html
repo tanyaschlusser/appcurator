@@ -1,30 +1,171 @@
-{% macro app_snapshot() -%}
- {# icon #}
- {# device(s) #}
- {# platform(s) #}
- {# average of reviews (usability, effectiveness) (and number of reviewers by doctor | patient ) #}
+{# Contains all of the macros for this project.
+ #
+ # app_review(review)
+ #   review = dict(avatar=string,
+ #                 nickname=string,
+ #                 usability=number (1 to 3),
+ #                 effectiveness=number (1 to 3),
+ #                 review=string)
+ #
+ # app_score_icon(score, who='')
+ #   score = number (1 to 3)
+ #   who = string (usually 'Health Provider' or 'User')
+ #
+ # app_summary(app)
+ #   app = dict( appid=number,
+ #               categories=list of strings,
+ #               devices=list of strings,
+ #               icon=string (path to icon),
+ #               last_review_date=string,
+ #               link_entries=list of strings,
+ #               name=string,
+ #               n_recc=number,
+ #               n_users=string,
+ #               objective=string,
+ #               organization=string,
+ #               platforms=list of strings,
+ #               provider_usability=number (1 to 3),
+ #               provider_effectiveness=number (1 to 3),
+ #               user_usability=number (1 to 3),
+ #               user_effectiveness=number (1 to 3))
+ #
+ # provider_summary()
+ # user_summary()
+ #}
+
+
+{% macro app_review(review) -%}
+  <div class="app_review">
+  <img src="{{ url_for('static', filename='images/avatars/' ~ review.avatar) }}"
+       class="avatar"
+       alt="{{ review.nickname }}'s avatar"></img>
+
+    <div class="half_width score">
+       <li>Usability
+        <ul> <li> {{ app_score_icon(review.usability) }} </ul>
+       <li>Effectiveness
+        <ul> <li> {{ app_score_icon(review.effectiveness) }} </ul>
+    </div>
+    <p class="half_width">{{ review.review }}</p>
+    <br/>
+    {{ review.nickname }} 
+    ({{ review.user_role }})
+    <br/>
+    {{ review.review_date }}
+    {% if review.platform is defined %} &ndash; {{ review.platform }} {% endif %}
+  </div>
 {%- endmacro %}
 
-{% macro app_score_icon(score) -%}
-  <span class="score">
+{% macro app_score_icon(score, who='') -%}
+  <div class="score">
   {% if score <= 1 %}
-    <img src=url_for('static', filename = 'images/icons/thumbs_down.png')
+    <img src="{{ url_for('static', filename='images/thumbsdown.png') }}")
          alt="Thumbs Down">
   {% elif score <= 2 %}
-    <img src=url_for('static', filename = 'images/icons/meh.png')
+    <img src="{{ url_for('static', filename='images/meh.png') }}")
          alt="Meh">
   {% else %}
-    <img src=url_for('static', filename = 'images/icons/thumbs_up.png')
+    <img src="{{ url_for('static', filename='images/thumbsup.png') }}")
          alt="Thumbs Up">
   {% endif %}
-  {{ score }}
-  </span>
+  <p>{{ score|round(1, 'floor') }}
+    <small>{% if who != '' %}({{ who }}){% endif %}</small>
+  </p>
+  </div>
 {%- endmacro %}
 
-{% macro category_summary() -%}
- {# number of reviews #}
- {# top reviewed app(s) -- show snapshots #}
+
+{% macro app_summary(app) -%}
+    <div class="app_summary">
+
+      <h2>{{ app.name }}</h2>
+      <div class="flex_row_container">
+        <div>
+          <div class="icon_container">
+              <img src="{{ url_for('static', filename='images/icons/' ~ app.icon) }}" class="icon" >
+              <div class="icon_caption">by {{ app.organization }}</div>
+          </div>
+          <p class="half_width">{{ app.objective }}</p>
+          <p> 
+            {% if app.n_recc > 1 %}
+               {{ app.n_recc }} recommendations by {{ app.n_users }} members
+            {% elif app.n_recc == 1 %}
+             1 recommendation
+            {% else %}
+             Be the first recommender!
+            {% endif %}
+          </p>
+    
+            {% if app.hasreviews is defined %}
+            <form>
+              <input type="hidden" name="app_id" value="{{ app.app_id }}"></input>
+              <input type="hidden" name="review" value="review"></input>
+              <button type="submit" value="Write a review">Write a review</button>
+            </form>
+            {% else %}
+            <a href="{{ url_for('apps', appid=app.app_id) }}">See reviews</a>
+            {% endif %}
+      
+         <p> 
+          {% for category in app.categories %}
+            <span class="category">{{ category }}</span>
+          {% endfor %}
+        
+          {% for device in app.devices %}
+            <span class="category">{{ device }}</span>
+          {% endfor %}
+          {% for platform in app.platforms %}
+            <span class="category">{{ platform }}</span>
+          {% endfor %}
+    
+        {# do this later
+          {% for link_entry in app.link_entries %}
+            {{ link_entry }} <a href="{{ link }}">link_code</a> 
+          {% endfor %}   
+        #}
+         </p>
+       </div>
+  
+      <div> 
+        <div class="half_width score">
+           <li>Usability
+            <ul>
+              <li> {% if app.provider_usability is defined %}
+                    {{ app_score_icon(app.provider_usability, who='Health providers') }}
+                  {% else %} <small>No reviews by Health Providers</small>
+                  {% endif %}
+              <li> {% if app.user_usability is defined %}
+                    {{ app_score_icon(app.user_usability, who='Users') }}
+                  {% else %} <small>No reviews by Users</small>
+                  {% endif %}
+            </ul>
+        </div>
+        <div class="half_width score">
+          <li>Effectiveness
+            <ul>
+              <li> {% if app.provider_effectiveness is defined %}
+                    {{ app_score_icon(app.provider_effectiveness, who='Health providers') }}
+                  {% else %} <small>No reviews by Health Providers</small>
+                  {% endif %}
+              <li> {% if app.user_effectiveness is defined %}
+                    {{ app_score_icon(app.user_effectiveness, who='Users') }}
+                  {% else %} <small>No reviews by Users</small>
+                  {% endif %}
+            </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <p>
+      {% if app.last_review_date is defined %}
+        Most recent review: {{ app.last_review_date }}
+      {% endif %}  
+    </p>
+  </div>
 {%- endmacro %}
+
+
 
 {% macro provider_summary() -%}
 <img src="{{ provider_avatar }}" class="avatar"></img>
@@ -34,8 +175,8 @@
 {# provider organization #}
 {%- endmacro %}
 
-{% macro patient_summary() -%}
+{% macro user_summary() -%}
 {# patient name #}
-{# patient avatar #}
+{# comment patient avatar #}
 {# current_feeling #}
 {%- endmacro %}

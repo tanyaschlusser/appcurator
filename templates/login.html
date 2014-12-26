@@ -1,19 +1,96 @@
-{% extends "base.html" %}  
-{%block title %}Login{% endblock %}
-{% block content %}
-{# Need user ID and password right now.
-   Later forego password for Facebook token.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel=stylesheet
+        type=text/css
+        href="{{ url_for('static', filename='style.css') }}">
+  <title>Login</title>
+</head>
+<body>
+{#
+ # Need user nickname only (for now). No passwords so that nobody
+ # does something dumb with passwords on our unsecure system.
+ #
+ # Later forgo password for Facebook token.
  #}
+<div>
 <h2>Login</h2>
-<p>Caution: do not use a password of value -- this is an insecure
-   example login not using ssh that will later be replaced with
-   a more secure login by Facebook.
+<p>This login will later be replaced with Open ID login via Facebook.
 </p>
-<form>
-  <input type="text" name="nickname" value="Your nickname"></input>
-  <input type="password" name="password" ></input>
+
+
+<form id="loginForm" method="POST">
+  <input autofocus="autofocus"
+         type="text"
+         maxlength=24
+        id="nickname"
+         name="nickname"
+         pattern=/^[a-z][a-z0-9_\.\-]{2,23}/
+         placeholder="(3-24 lowercase chars)"
+         required="required"
+         size=24></input>
+  <input type="button" id="login" name="login" value="Login"></input>
+  <input type="button" id="create" name="create" value="Create new profile"></input>
 </form>
-{% if error %}
-  <p class="error"> {{ error }} </p>
-{% endif %}
-{% endblock %}
+
+  <p class="error" id="err">  </p>
+</div>
+
+  <script type="text/javascript">
+
+    function doPost(add){
+      var dat = new FormData(document.getElementById('loginForm'));
+      if (add != undefined) {
+        dat.append(add, add);
+      }
+
+      var req = new XMLHttpRequest();
+      req.overrideMimeType("application/json");
+
+      /* To process the response: */
+      req.onload = function() {
+        if (req.status === 200) {
+          var result = JSON.parse(req.responseText);
+          if ("user_id" in result) {
+            if ("created" in result) {
+              /* Created user -- redirect to profile page and close this window. */
+              window.onunload = function() {
+                    window.opener.location.assign({{ url_for('profile') }});
+                  };
+            } else {
+            /* Logged in -- reload prior window and close this window. */
+              window.onunload = function() { window.opener.location.reload(); };
+            }
+            window.close();
+          } else if ("error" in result) {
+            var e = document.getElementById("err");
+            e.innerText = e.textContent = result.error;
+          } else {
+            document.getElementById("error")
+                .innerHTML = "Unknown error. Please retry.";
+          }
+        }
+      }
+      /* Send the query to the 'login' destination.
+       * It will either create or check for existence of the
+       * username (nickname) depending on whether 'create' is
+       * in the form.
+       */
+      req.open("POST", {{ url_for('login') }}, true);
+      req.send(dat);
+    }
+
+  document.getElementById('login')
+      .addEventListener("click", function(){doPost('login');});
+  document.getElementById('create')
+      .addEventListener("click", function(){doPost('create');});
+  document.getElementById('nickname')
+      .addEventListener("keypress", function(e){
+            if (typeof e == 'undefined' && window.event) { e = window.event; }
+            if (e.keyCode == 13) {
+              doPost('login');
+            }
+          });
+            
+  </script>
+</body>

@@ -3,6 +3,9 @@
 <head>
   <base href="{{ url_for('index') }}">
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+  <link rel="shortcut icon"
+        type="image/png"
+        href="{{ url_for('static', filename='images/favicon.png') }}">
   {% block head %}
   <title>{%block title %}{% endblock %} - App Curator</title>
   {% endblock %}
@@ -17,27 +20,44 @@
       <!--style="fill:white; stroke:#D507F2; stroke-width:0.7; font-family:serif; font-style:italic; letter-spacing:-0.3pt">Banner</text> -->
     </g>
   </svg>
-  <nav>
-    <ul>
-      <li {% if request.path == "/profile" %}class="active"{% endif %}>
-        <a href="{{ url_for('profile') }}">Profile</a>
-      <li {% if request.path == "/write" %}class="active"{% endif %}>
-        <a href="{{ url_for('write') }}">Write a review</a>
-      <li {% if request.path == "/apps" %}class="active"{% endif %}>
-        <a href="{{ url_for('apps') }}">Find apps</a>
-      <li {% if request.path == "/providers" %}class="active"{% endif %}>
-        <a href="{{ url_for('providers') }}">Find providers</a>
-    </ul>
-  </nav>
+  <div class="flex_col_container">
+    {% if session is defined and session.user is defined %}
+    <p>
+      <b>{{ session.user.nickname }}</b>
+      <img id="login_avatar"
+           src="{{ url_for('static', filename='images/avatars/' ~ session.user.avatar) }}"
+           alt="{{ session.user.nickname }}'s avatar"></img>
+           <!--class="avatar"-->
+      <button type="button" onclick="doLogout()">Logout</button>
+    </p>
+    {% else %}
+      <button onclick = "openLogin()">Log in / Create</button>
+    {% endif %}
+
+    <span id="flash_container" class=flashes>
+      {# Filled using 'doFlashes()' below. #}
+    </span>
+
+    <nav>
+      <ul>
+        <li {% if request.path == "/profile" %}class="active"{% endif %}>
+          <a href="{{ url_for('profile') }}">Profile</a>
+        <li {% if request.path == "/write" %}class="active"{% endif %}>
+          <a href="{{ url_for('write') }}">Write a review</a>
+        <li {% if request.path == "/apps" %}class="active"{% endif %}>
+          <a href="{{ url_for('apps') }}">Find apps</a>
+        <li {% if request.path == "/providers" %}class="active"{% endif %}>
+          <a href="{{ url_for('providers') }}">Find providers</a>
+      </ul>
+    </nav>
+  </div>
 </header>
 <!-- main -->
 <main>
-  <section id="content">
-    {% block content %}{% endblock %}
-  </section>
+  {% block content %}{% endblock %}
 </main>
 <!-- footer -->
-<footer>
+<footer >
   <nav>
     <ul>
       <li {% if request.path == "/providers" %}class="active"{% endif %}>
@@ -46,7 +66,60 @@
         <a href="{{ url_for('about') }}">About us</a>
     </ul>
   </nav>
-  &copy; Copyright 2014, Tanya and Valentina
+  <p> &copy; Copyright 2014, Tanya and Valentina</p>
 </footer>
 <!-- footer -->
+<script>
+function doLogout() {
+  {# Log out the user (pop from the session) if logged in. #}
+  var req = new XMLHttpRequest();
+  req.onload = function() {
+    if (req.status === 200) {
+     location.reload();
+    } else {
+      alert("Failed to log out. Should not be possible.");
+    }
+  }
+  req.open("get", "{{ url_for('logout') }}", true);
+  req.send();
+}
+
+function openLogin() {
+  {# Open the login window in a popup. #}
+  var win = window.open('{{ url_for('login') }}',
+              '',
+              'height=150px,width=580px');
+
+  /* To force the popup title to 'Login' */
+  var check = function () {
+    if(win.document) { // if loaded
+        win.document.title = "Log in"; // set title
+    } else { // if not loaded yet
+        setTimeout(check, 10); // check in another 10ms
+    }
+  }
+  check(); 
+}
+
+{# Show the 'flash' messages. #}
+(function doFlashes() {
+  {% with messages = get_flashed_messages() -%}
+    {% if messages %}
+    var flashes = ["{{ messages|join('", "') }}"];
+  
+    var fc = document.getElementById("flash_container")
+    for (i=0; i<flashes.length; i++) {
+      f = flashes[i];
+      setTimeout( (function() {
+          fc.classList.remove("flashes");
+          fc.offsetWidth = fc.offsetWidth;
+          fc.innerHTML = f;
+          fc.classList.add("flashes"); })()
+        , 11000);
+    }
+    {% endif %}
+  {%- endwith %}
+}) ();
+
+</script>
 </body>
