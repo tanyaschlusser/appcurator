@@ -305,7 +305,7 @@ def get_login(nickname=None, **kwargs):
                 "SELECT nickname, user_id, avatar FROM user_details WHERE nickname=%s;",
                 args=[nickname.lower()],
                 columns=["nickname", "user_id", "avatar"])
-        if result is None: 
+        if len(result) == 0: 
             result = {"error":"Username not found."}
     return result
 
@@ -394,8 +394,8 @@ def post_login(nickname=None, **kwargs):
                 """,
                 args=[nickname.lower()],
                 columns=["nickname", "user_id", "avatar"])
-        if result is None: 
-            result = {"error": "Sorry, username not found."}
+        if len(result) == 0:
+            result = {"error": "Odd, we just inserted the name."}
     return result
 
 
@@ -563,14 +563,10 @@ def profile():
         if "user" not in session:
             result["error"] = "Oup! Please log in to change your profile."
         else:
-            print "The whole request.form:", request.form
-            print "The files:", request.files
-
             fields = ("first_name", "last_name")
             for f in fields:
                 if f in request.form:
                     query[f] = request.form[f]
-            print "the query:", query
             if "image" in request.files:
                 query["avatar"] = request.files["image"]
 
@@ -616,6 +612,9 @@ def login():
                     # Then the nickname is available for use. Create it.
                     result = post_rest("login", query=query)
                     result["created"] = "true"
+            else:  # login
+                # is there  an error?
+                print "Result for 'login':", result
         else:
            result["error"] = "No user id entered."
 
