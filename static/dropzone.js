@@ -70,10 +70,6 @@ function handleFile(f) {
       var xhr = new XMLHttpRequest();
       xhr.open('POST', form.getAttribute('action'), true);
       xhr.send(formData);
-      /*setTimeout(function(){
-        var tmp = document.getElementById("login_avatar");
-        tmp.src = tmp.src + "?" + new Date().getTime();
-      }, 500);*/
       setTimeout(function() { window.location.reload(true); }, 10);
       return false; 
     };
