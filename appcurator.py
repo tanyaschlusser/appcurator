@@ -45,11 +45,11 @@ except ImportError:
 
         def reset_db():
             with closing(connect_db()) as db:
-            with open('drop_tables.sql', 'r') as f:
-                db.cursor().execute(f.read())
-            with open('create_tables.sql', 'r') as f:
-                db.cursor().execute(f.read())
-            db.commit()
+                with open('sql/drop_tables.sql', 'r') as f:
+                    db.cursor().execute(f.read())
+                with open('sql/create_tables.sql', 'r') as f:
+                    db.cursor().execute(f.read())
+                db.commit()
 
     conf = Conf()
 
