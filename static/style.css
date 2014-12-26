@@ -1,167 +1,377 @@
-body {
-  /* background: #D810F5; */
-  /*background: #FA96FA;*/
-  background: white;
-  border: 0;
-  color: black;
-  font: normal 12px Arial, Helvetica, sans-serif;
-  margin: 0;
-  min-width: 600px;
-  padding: 0;
-  width: 100vw;
-} 
-
-header {
-  background: #D810F5;
-  /*background: #FA96FA;*/
-  /*box-shadow: 3px 3px 6px 3px #630251;*/
-  box-shadow: 0 3px 6px 3px #C605B2;
-  top: 0;
-  width: 100%;
-  height: 10vh;
-  min-height: 100px;
-  padding: 0 20px 0 20px;
-  position: relative; 
-}
-
-header svg {
-  float: left;
-  width: 30vw;
-  min-width: 300px;
-  min-height: 100px;
-  max-height: 10vw;
-}
-
-header nav {
-  position: absolute;
-  bottom: 0px;
-  right: 10vw;
-}
-nav ul {
-  list-style-type: none;
-}
-nav li {
-  float: left;
-  text-align: center;
-}
-header nav li {
-  padding: 3px;
-}
-header a {
-  display: block;
-  padding: 3px;
-  margin: 5px 5px 0px 5px;
-}
-
-header a:link {
-  color: white;
-  font: Arial,Helvetica,sans-serif;
-  text-decoration: none;
-}
-header a:visited {
-  color: white;
-}
-header a:hover {
-  color: #C605B2;
-  background: #E0B0EA;
-}
-header a:active {color: royalblue;}
-
+/* style.css
+ *
+ * Style sheet for all pages.
+ * Grouping is by tag, class, and i.d., with media at the end
+ *
+ */
+/* ========================= Overall ========================= */
+/* ---------------------------------------------- by tag ----- */
 a:link {color: mediumblue;}
 a:visited {color: darkslateblue;}
 a:hover {color: blue;}
 a:active {color: royalblue;}
 
-main {
+
+body {
+  /* background: #D810F5; */
+  /* background: #FA96FA; */
   background: white;
-  margin-top: 3vw;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 5vw;
-  width: 85%;
-  height: 90vh;
-  padding: 3vw;
-  border: 2px solid white;
-  border-radius: 5px;
-  /* box-shadow: 3px 3px 6px 3px #C605B2; */
-  box-shadow: 3px 3px 6px 3px #630251;
-}
-section {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5vw;
-}
+  border: 0;
+  color: black;
+  font: normal 12px Arial, Helvetica, sans-serif;
+  height: 100%;
+  margin: 0 auto;
+  margin: 0 -9999rem;
+  padding: 0 9999rem;
+  min-width: 400px;
+  text-align: center;
+} 
 
-#image_drop_zone {
-  border: 1px solid black;
+button {
+  margin: 5px;
 }
-#image_drop_zone:hover {
-  border: 1px dotted gray;
-}
-
-.app_summary {
-  border: 3px solid red;
-  border-radius: 4px;
-  width: 100%;
-}
-.avatar {
-  width: 100px;
-  height: 100px;
-  box-shadow: 1px 1px 3px 2px #333333;
-}
-.error {
-  font: 14px monospace;
-  color: red;
-}
-.icon {
-  width: 200px;
-  height: 200px;
-  box-shadow: 2px 2px 6px 3px #333333;
-}
-.score {
-  font: bold 24px Arial, Helvetica, sans-serif;
-  background: #554466;
-  border-radius: 2px;
-  margin: 2px;
-  color: white;
-}
-.tag_summary {
-  border: 3px solid purple;
-  border-radius: 4px;
-  width: max(30%, 300px);
-  float: left;
-}
-
 
 footer {
+  position: absolue;
   background: #D810F5;
-  position: relative;
-  width: 90vw;
   bottom: 0;
   color: #662244;
-  text-align: right;
-  padding: 1vw 6vw;
+  height: 25px; 
+  margin: 0 -9999rem;
+  padding: 0 9999rem;
+  width: 100%;
   font: small;
 }
-
-footer nav {
-  float: left;
-}
-
-footer ul {
-  margin: 0;
-  padding: 0;
-}
-
 footer a {
   padding: 0px 10px;
   text-decoration: none;
 }
-
-footer a:link {
-  color: #dddddd;
-}
-
 footer a:hover {
   color: #333333;
 }
+footer a:link {
+  color: #dddddd;
+}
+footer nav {
+  display: inline-block;
+  float: left;
+  margin: 1em 1em 1em -20px;
+}
+footer p {
+  display: inline-block;
+  float: right;
+  text-align: right;
+  padding: 0em 3em 0em 0em;
+}
+footer ul {
+  margin: 0;
+}
+
+form div {
+  display: inline-block;
+}
+
+h2 {
+  margin: 0 0 1em 0;
+}
+
+header {
+  background: #D810F5;
+  color: white;
+  font: Arial,Helvetica,sans-serif;
+  /*background: #FA96FA;*/
+  /*box-shadow: 3px 3px 6px 3px #630251;*/
+  box-shadow: 0 3px 6px 3px #C605B2;
+  top: 0;
+  width: 100%;
+  height: 100px;
+  /* height:10vw;
+   * min-height: 100px; */
+  margin: 0 -9999rem;
+  padding: 0 9999rem;
+  position: relative; 
+}
+
+header a {
+  display: block;
+  padding: 3px;
+  margin: 5px 5px 0px 5px;
+}
+header a:active {
+  color: royalblue;
+}
+/*
+header a:hover {
+  color: #C605B2;
+  background: #E0B0EA;
+}
+*/
+header a:link {
+  text-decoration: none;
+}
+header a:visited {
+  color: white;
+}
+header div {
+  bottom: 0px;
+  height: calc(100% - 1em);
+  margin: 1em 1em 0 0;
+  position: absolute;
+  right: 9999rem; /* Has to match the padding in the header's style */
+}
+header img {
+  vertical-align: top;
+  height: 30px;
+}
+header nav li {
+  margin: 3px;
+}
+header nav li:hover {
+  color: #C605B2;
+  background: #E0B0EA;
+}
+header p {
+  margin: 0;
+}
+header svg {
+  float: left;
+  width: 30vw;
+  min-width: 350px;
+  min-height: 100px;
+  max-height: 10vw;
+}
+
+html {
+  background: #D810F5;
+  overflow-x: hidden;
+}
+
+img {
+  border-radius: 10%;
+}
+
+input {
+  margin: 3px;
+}
+
+
+nav li {
+  float: left;
+  text-align: center;
+}
+nav ul {
+  list-style-type: none;
+  margin: 0;
+}
+
+main {
+  background: white;
+  display: flex;
+  flex-flow: row wrap;
+  height: 100%;
+  justify-content: center;
+  padding: 2em;
+/*  border: 2px solid white;
+  border-radius: 5px; 
+  box-shadow: 3px 3px 6px 3px #630251; */
+  /* box-shadow: 3px 3px 6px 3px #C605B2; */
+  vertical-align: top;
+}
+
+section {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5vw;
+  padding: 1em;
+}
+
+    
+/* -------------------------------------------- by class ----- */
+.app_review {
+  border: 1px solid black;
+  border-radius: 6px;
+  box-shadow: 1px 2px 3px 1px #888888;
+  margin: 1em;
+  padding: 1em;
+  text-align: left;
+  vertical-align: top;
+  width: 100%;
+}
+
+.app_summary {
+  background: white;
+  border-radius: 1vh;
+  color: black;
+  margin: 1em auto;
+  max-width: 800px;
+  padding: 1em;
+  vertical-align: top;
+}
+.app_summary form {
+  display: inline-block;
+}
+.app_summary p {
+  margin: 0;
+}
+
+.avatar {
+  width: 100px;
+}
+
+.category {
+  background: whitesmoke;
+  border: 1px solid lightblue;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0.1em 0;
+  padding: 0.1em 0.5em;
+}
+
+.error {
+  font: 14px monospace;
+  color: red;
+}
+
+.flashes {
+  opacity: 0;
+  transition-delay: 10s;
+  transition: opacity 1s; 
+}
+
+.flex_1 {
+  flex: 1 0 auto;
+  margin: .5em;
+  max-width: 250px;
+  min-width: 80px;
+  padding: .5em;
+}
+.flex_2 {
+  flex: 2 0 auto;
+  margin: .5em;
+  padding: .5em;
+}
+.flex_3 {
+  flex: 3 0 auto;
+  margin: .5em;
+  padding: .5em;
+}
+
+.flex_col_container {
+  align-items: flex-end;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
+.flex_row_container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.full_width {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 1vw;
+}
+
+.half_width {
+  border-radius: 5%;
+  display: inline-block;
+  max-width: 250px;
+  min-width: 90px;
+  margin: 0.5%;
+  padding: 2px;
+  vertical-align: top;
+  width: 47%;
+}
+
+.icon {
+  box-shadow: 2px 2px 6px 3px #333333;
+  display: block;
+  height: 100px;
+  margin: 0 1em 1em 0;
+  width: 100px;
+}
+
+.icon_caption {
+  font-weight: bold;
+  margin: 0 -100px 0 0;
+  width: 200px;
+}
+
+.icon_container {
+  width: 45%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.score {
+  font: bold 11px Arial, Helvetica, sans-serif;
+  /*background: #554466;*/
+  /*border-radius: 2px;*/
+  color: #554466;
+  /*height: 25px;*/
+  /*margin: 2px;*/
+}
+.score img {
+  border-radius: 5%;
+  /* height: 90%; */
+  height: 20px;
+  margin: 3px;
+  vertical-align: middle;
+}
+.score li {
+  list-style-type: none;
+  margin: 2px 0 0 0;
+  padding: 0 0 0 5px;
+}
+.score p {
+    display: inline-block;
+    margin: 0;
+    top: 50%;
+}
+.score ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0 0 0 10px;
+}
+
+.tag_summary {
+  background: linear-gradient(45deg, #FA96FA, #D810F5);
+  border-radius: 1vh;
+  box-shadow: 1px 1px 3px 2px #333333;
+  color: white;
+  flex: 1 0 auto;
+  margin: 1em;
+  width: 300px;
+  min-width: 300px;
+  padding: 1em;
+  text-align: left;
+  vertical-align: top;
+}
+
+.width_100px {
+  width: 100px;
+}
+
+
+/* ----------------------------------------------- by Id ----- */
+#image_drop_zone {
+  border: 1px solid black;
+  box-shadow: 1px 1px 3px 2px #333333;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+#image_drop_zone:hover {
+  border: 1px dotted gray;
+}
+
+#input_form {
+  width: 90%;
+  min-with: 480px;
+}
+
