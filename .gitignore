@@ -23,7 +23,7 @@
 # Logs and databases #
 ######################
 *.log
-*.sql
+# *.sql  ## tanya -- keeping the sql files
 *.sqlite
  
 # OS generated files #
