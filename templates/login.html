@@ -62,12 +62,10 @@
               window.onunload = function() { window.opener.location.reload(); };
             }
             window.close();
-          } else if ("error" in result) {
+          } 
+          if ("error" in result) {
             var e = document.getElementById("err");
             e.innerText = e.textContent = result.error;
-          } else {
-            document.getElementById("error")
-                .innerHTML = "Unknown error. Please retry.";
           }
         }
       }
