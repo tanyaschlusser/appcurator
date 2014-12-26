@@ -11,7 +11,7 @@
 
 CREATE TABLE IF NOT EXISTS user_details (
   user_id serial PRIMARY KEY,
-  avatar varchar(64),
+  avatar varchar(64) DEFAULT 'default.png',
   nickname varchar(32) UNIQUE NOT NULL,
   first_name varchar(32),
   last_name varchar(32),
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS app (
   app_id serial PRIMARY KEY,
   app_name varchar(128),
   organization_id int REFERENCES organization_details (organization_id),
-  icon varchar(128),
+  icon varchar(64) DEFAULT 'default.png',
   advertisement_text varchar(128),
   objective varchar(256) NOT NULL
 );
