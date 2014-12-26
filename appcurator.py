@@ -32,7 +32,8 @@ try:
     import configuration as conf
 except ImportError:
     # Heroku wants us to use environment variables instead.
-    class Conf:
+    class conf:
+        @staticmethod
         def connect_db():
             return pg8000.connect(
                     database=os.environ['DATABASE'],
@@ -43,6 +44,7 @@ except ImportError:
                     ssl=True
                     )
 
+        @staticmethod
         def reset_db():
             with closing(connect_db()) as db:
                 with open('sql/drop_tables.sql', 'r') as f:
@@ -50,8 +52,6 @@ except ImportError:
                 with open('sql/create_tables.sql', 'r') as f:
                     db.cursor().execute(f.read())
                 db.commit()
-
-    conf = Conf()
 
     
 
