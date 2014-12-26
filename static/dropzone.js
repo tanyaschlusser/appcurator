@@ -1,17 +1,28 @@
+/* dropzone.js
+ *
+ * Code for a drag-and-drop image input and resize
+ * to be used with the templates/profile.html page.
+ */
 var dropbox;
 dropbox = document.getElementById("image_drop_zone");
 dropbox.addEventListener("dragenter", dragenter, false);
 dropbox.addEventListener("dragover", dragover, false);
+dropbox.addEventListener("dragleave", dragleave, false);
 dropbox.addEventListener("drop", drop, false);
 
 var form;
 var addImage = function() { return false;};
 form = document.forms.namedItem("input_form");
-form.onsubmit = "return addImage()";
+form.addEventListener("submit", addImage, false);
 
 function dragenter(e) {
   e.stopPropagation();
   e.preventDefault();
+  this.classList.add('over');
+}
+
+function dragleave(e) {
+  this.classList.remove('over');
 }
 
 function dragover(e) {
@@ -25,20 +36,48 @@ function drop(e) {
 
   var dt = e.dataTransfer;
   var f = dt.files[0];
+  handleFile(f);
+}
 
+function handleFile(f) {
   if (f) {
-    addImage = function() {
-      formData = new FormData(form);
-      formData["image"] = dataURItoBlob(ImageTools.scaleImage(f)) ;
-      return true; 
-    };
+    var imageType = /image.*/;
+
+    if (! f.type.match(imageType)) {
+      alert("Eeep. Browser doesn't recognize this as an image..");
+      return(false);
+    }
 
     var img = document.getElementById("avatar");
     img.file = f;
 
     var reader = new FileReader();
-    reader.onload(function(aImg) { return function(e){aImg.src = e.target.result;};})(img);
+    reader.onload = (function(aImg) { return function(e) {
+        var tmp_img = new Image();
+        tmp_img.src = e.target.result;
+        aImg.src = ImageTools.scaleImage(tmp_img); 
+    }; })(img);
     reader.readAsDataURL(f);
+
+
+    addImage = function(e) {
+      formData = new FormData(form);
+
+      formData.append(
+          "image",
+          dataURItoBlob(document.getElementById("avatar").src),
+          "image.jpg");
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', form.getAttribute('action'), true);
+      xhr.send(formData);
+      /*setTimeout(function(){
+        var tmp = document.getElementById("login_avatar");
+        tmp.src = tmp.src + "?" + new Date().getTime();
+      }, 500);*/
+      setTimeout(function() { window.location.reload(true); }, 10);
+      return false; 
+    };
+    form.addEventListener("submit", addImage, false);
   }
 }
 
@@ -59,13 +98,21 @@ function dataURItoBlob(dataURI) {
 /* Image resize:
  *  http://stackoverflow.com/questions/10333971/html5-pre-resize-images-before-uploading
  */
-ImageTools.config = { 'maxWidth': 100, 'quality': 0.95};
+var ImageTools = {};
+ImageTools.config = { 'maxWidth': 100, 'quality': 0.88};
 
 ImageTools.scaleImage = function(img) {
     var canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    var smallerDim = Math.min(img.naturalWidth, img.naturalHeight);
+    canvas.width = smallerDim;
+    canvas.height = smallerDim;
+
+    // delta above square
+    var dx = (img.naturalWidth - smallerDim) / 2;
+    var dy = (img.naturalHeight - smallerDim) / 2;
+    canvas.getContext('2d').drawImage(img,
+        0+dx, 0+dy, smallerDim, smallerDim,
+        0, 0, smallerDim, smallerDim);
 
     while (canvas.width >= (2 * this.config.maxWidth)) {
         canvas = this.getHalfScaleCanvas(canvas);
@@ -76,7 +123,8 @@ ImageTools.scaleImage = function(img) {
     }
 
     var imageData = canvas.toDataURL('image/jpeg', this.config.quality);
-    return dataURItoBlob(imageData);
+    // return dataURItoBlob(imageData);
+    return (imageData);
 };
 
 ImageTools.scaleCanvasWithAlgorithm = function(canvas) {
