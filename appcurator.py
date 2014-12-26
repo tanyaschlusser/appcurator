@@ -28,7 +28,32 @@ from flask.views import MethodView
 from jinja2 import Environment, Template
 
 ## Local configuration settings -- database connection, passwords
-import configuration as conf
+try:
+    import configuration as conf
+except ImportError:
+    # Heroku wants us to use environment variables instead.
+    class Conf:
+        def connect_db():
+            return pg8000.connect(
+                    database=os.environ['DATABASE'],
+                    host=os.environ['HOST'],
+                    port=os.environ['PORT'],
+                    user=os.environ['USER'],
+                    password=os.environ['PASSWORD'],
+                    ssl=True
+                    )
+
+        def reset_db():
+            with closing(connect_db()) as db:
+            with open('drop_tables.sql', 'r') as f:
+                db.cursor().execute(f.read())
+            with open('create_tables.sql', 'r') as f:
+                db.cursor().execute(f.read())
+            db.commit()
+
+    conf = Conf()
+
+    
 
 ## Setup
 app = Flask(__name__)
