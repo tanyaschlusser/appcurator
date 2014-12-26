@@ -36,6 +36,33 @@ you can do it in a virtual environment:
     ## just type 'deactivate' (without quotes)
 
 
+
+Heroku notes
+============
+
+These instructions help to
+[deploy in Git](https://devcenter.heroku.com/articles/git).
+
+There is an issue with storing passwords in a configuration
+file -- you can't just add files to your Heroku repo, you
+are supposed to use environment variables.
+To add an environment variable to Heroku:
+
+    heroku config:set DATABASE=<database value>
+    heroku config:set HOST=<host value (ec2-something.amazon.com)>
+    heroku config:set PORT=5432
+    heroku config:set USER=<user name>
+    heroku config:set PASSWORD=<password>
+
+
+And then restart:
+
+    heroku restart
+
+To look at the logs while the app is running:
+
+    heroku logs --tail
+
 Schedule
 ========
 
