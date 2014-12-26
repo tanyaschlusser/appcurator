@@ -1,0 +1,7 @@
+app_name,tags,organization_name,icon,objective,platforms,devices
+Laughter is the Best Medicine,"{Mind and Meditation}",USA App Developers,LaughterBestMedicine.jpg,"Everybody needs a little laugh. Play a laugh Track whenever you need one.","{iOS,Android,Tablet,Phone}",
+The Luge Master,"{Sports,Luge}",USA App Developers,LugeMaster.jpg,"Photograph your Luge Track and we will trace a recommended route for you.","{Android,Phone}",
+Meditation for Healing,"{Mind and Meditation}",USA App Developers,MeditationForHealing.jpg,"Convert your chants and mantras with added music, images, and sound effects for a mystical experience.","{iOS,Android,Tablet,Phone}",
+Jog Route Tracker,"{Sports,Track}",USA App Developers,RouteTracker.jpg,"Time and Track your jogging routes.","{iOS,Android,Phone}","{Fitbit,Nike+FuelBand}"
+Ski Better,"{Sports,Skiing}",USA App Developers,SkiBetter.jpg,"Wear your phone while Skiing and view a simulation of your own body's movements based on the movements of your center of mass -- with extension to superimpose the animation on GoPro video.","{iOS,Android,Phone}",
+Swim Workout Time Split Tracker,"{Sports,Swimming}",USA App Developers,SwimWorkoutTracker.jpg,"Post your swim workouts for your friends, and borrow some of their most effective workouts for yourself!","{iOS,Android,Tablet,Phone}",

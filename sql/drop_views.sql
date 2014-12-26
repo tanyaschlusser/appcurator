@@ -1,0 +1,10 @@
+DROP VIEW IF EXISTS app_summaries CASCADE;
+DROP VIEW IF EXISTS app_category_view CASCADE;
+DROP VIEW IF EXISTS cat_to_parents CASCADE;
+DROP VIEW IF EXISTS app_platform_view CASCADE;
+DROP VIEW IF EXISTS app_device_view CASCADE;
+DROP VIEW IF EXISTS app_view CASCADE;
+DROP VIEW IF EXISTS recommendation_view CASCADE;
+DROP VIEW IF EXISTS review_view CASCADE;
+
+DROP FUNCTION IF EXISTS trigger_app_view() CASCADE;

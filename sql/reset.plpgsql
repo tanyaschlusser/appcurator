@@ -1,0 +1,7 @@
+\i drop_functions.sql
+\i drop_views.sql
+\i drop_tables.sql
+\i create_tables.sql
+\i create_views.sql
+\i create_functions.sql
+\i insert_minimal_dataset.sql

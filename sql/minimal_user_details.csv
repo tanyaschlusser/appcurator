@@ -1,0 +1,8 @@
+first_name,last_name,nickname,avatar,roles,organization,is_organization_admin,authorized_professionals,authorized_subs
+Tanya,Schlusser,tanya,SmugDog.jpg,"{user,site administrator}",,,"{doctor}",
+Ivy,Ma,ivy,HappyKitty.jpg,"{user}",,,"{nurse}",
+Valentina,Kibuyaga,valentina,RedPanda.jpg,"{user, site administrator}",,,,
+Doctor,Kibuyaga,doctor,random1.jpg,"{health provider}","USA Health Providers",,,"{nurse}"
+Nurse,Ivy,nurse,random2.jpg,"{health provider,user}","USA Health Providers",,,
+Clinic,Admin,clinicadmin,random3.jpg,"{health provider}","USA Health Providers",1,,
+App,Maker,appmaker,bighappy.jpg,"{user,manufacturer}","USA App Developers",1,,
