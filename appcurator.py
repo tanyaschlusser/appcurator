@@ -37,7 +37,7 @@ except ImportError:
             return pg8000.connect(
                     database=os.environ['DATABASE'],
                     host=os.environ['HOST'],
-                    port=os.environ['PORT'],
+                    port=int(os.environ['PORT']),
                     user=os.environ['USER'],
                     password=os.environ['PASSWORD'],
                     ssl=True
